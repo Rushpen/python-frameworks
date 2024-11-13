@@ -29,23 +29,37 @@
         <hr>
 
         {% for todo in todo_list %}
-        <div class="ui segment">
-            <h1 class="ui center aligned header">Task № {{todo.id }}</h1>
+        <div class="ui segment {% if todo.complete %}green{% else %}grey{% endif %}">
+            <h1 class="ui center aligned header {% if todo.complete %}green{% else %}grey{% endif %}">Task № {{todo.id }}</h1>
             <p class="ui big header"><strong>Name: </strong> {{ todo.title }}</p>
             <p class="ui big header"><strong>Description: </strong>{{ todo.description }}</p>
 
             {% if todo.complete == False %}
             <span class="ui gray label">Not Complete</span>
             {% else %}
-            <span class="ui green label">Completed</span>
+            <span class="ui green label">&nbsp;&nbsp;&nbsp;&nbsp;Completed&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {% endif %}
 
             <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
-            <a class="ui green button" href="/Edit/{{ todo.id }}">Edit</a>
             <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+            <button class="ui green button" onclick="toggleEditForm('{{ todo.id }}')">Edit</button>
+
+            <!-- Форма редактирования задачи (скрыта по умолчанию) -->
+            <form id="edit-form-{{ todo.id }}" class="ui form" action="/edit/{{ todo.id }}" method="post" style="display: none; margin-top: 10px;">
+                <div class="field">
+                    <label>New Title</label>
+                    <input type="text" name="title" value="{{ todo.title }}" required><br>
+                </div>
+                <div class="field">
+                    <label>New Description</label>
+                    <input type="text" name="description" value="{{ todo.description }}" required><br>
+                </div>
+                <button class="ui green button" type="submit">Save</button>
+            </form>
         </div>
         {% endfor %}
     </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
