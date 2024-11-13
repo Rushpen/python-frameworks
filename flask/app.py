@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -13,6 +14,7 @@ class Todo(db.Model):
     title = db.Column(db.String(100))
     description = db.Column(db.String(1000))
     complete = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 with app.app_context():
     db.create_all()

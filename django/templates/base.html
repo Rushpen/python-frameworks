@@ -29,7 +29,12 @@
 
         {% for todo in todo_list %}
         <div class="ui segment {% if todo.complete %}green{% else %}grey{% endif %}">
-            <h1 class="ui center aligned header {% if todo.complete %}green{% else %}black{% endif %}">Task № {{todo.id }}</h1>
+            <h1 class="ui center aligned header {% if todo.complete %}green{% else %}black{% endif %}">
+                Task № {{todo.id }}
+                <span style="font-size: 0.6em; color: #888; display: block; float: right;">
+                    {{ todo.formatted_date }}
+                </span>
+            </h1>
             <p class="ui big header"><strong>Name: </strong> {{ todo.title }}</p>
             <p class="ui big header"><strong>Description: </strong>{{ todo.description }}</p>
         
