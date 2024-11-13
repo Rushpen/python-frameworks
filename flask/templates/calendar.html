@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <!-- Подключаем CSS файл -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/calendar.css') }}">
+</head>
+<body>
+    <ul class="nav">
+        <li><a href="/" title="Tasks" class="nav-button">Tasks</a></li>
+      </ul>
+    <div class="calendar">
+        <div class="col leftCol">
+            <div class="content">
+                <h1 class="date"><span class="month-name">November</span> <span class="day-info">Thursday, 14</span></h1>
+                <div class="notes">
+                    <ul class="noteList">
+                        {% for task in tasks %}
+                            {{ task.title }}
+                            <a href="#" title="Remove note" class="removeNote animate">x</a>
+                        {% else %}
+                            <li>Нет задач на сегодня</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col rightCol">
+            <div class="content">
+                <div class="year-container">
+                    <button id="prevYear" class="year-button">◀</button>
+                    <h2 class="year">2024</h2>
+                    <button id="nextYear" class="year-button">▶</button>
+                </div>
+                <ul class="months">
+                    <li><a href="#" title="Jan" data-value="1">Jan</a></li>
+                    <li><a href="#" title="Feb" data-value="2">Feb</a></li>
+                    <li><a href="#" title="Mar" data-value="3">Mar</a></li>
+                    <li><a href="#" title="Apr" data-value="4">Apr</a></li>
+                    <li><a href="#" title="May" data-value="5">May</a></li>
+                    <li><a href="#" title="Jun" data-value="6">Jun</a></li>
+                    <li><a href="#" title="Jul" data-value="7">Jul</a></li>
+                    <li><a href="#" title="Aug" data-value="8">Aug</a></li>
+                    <li><a href="#" title="Sep" data-value="9">Sep</a></li>
+                    <li><a href="#" title="Oct" data-value="10">Oct</a></li>
+                    <li><a href="#" title="Nov" data-value="11" class="selected">Nov</a></li>
+                    <li><a href="#" title="Dec" data-value="12">Dec</a></li>
+                </ul>
+                <ul class="days"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем JavaScript файл -->
+    <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+    <script>
+        // Передаём данные из Flask в JavaScript через JSON-объект
+        const tasksByDate = JSON.parse('{{ tasks_by_date | tojson | safe }}');
+      </script>
+</body>
+</html>

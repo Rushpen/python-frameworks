@@ -11,6 +11,16 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">To Do App</h1>
 
@@ -22,6 +32,10 @@
             <div class="field_description">
                 <label>Descriptrion</label>
                 <input type="text" name="description" placeholder="Enter Description..."><br>
+            </div>
+            <div class="deadline_days">
+                <label>Days before the deadline</label>
+                <input type="text" name="deadline_days" placeholder="Enter deadline days..."><br>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <button class="ui blue button" type="submit">Add</button>
@@ -53,8 +67,11 @@
         <div class="ui segment {% if todo.complete %}green{% else %}grey{% endif %}">
             <h1 class="ui center aligned header {% if todo.complete %}green{% else %}grey{% endif %}">
                 Task № {{todo.id }}
-                <span style="font-size: 0.6em; color: #888; display: block; float: right;">
-                    {{ todo.created_at.strftime('%d-%m-%Y %H:%M') }}
+                <span style="font-size: 0.6em; display: block; float: right;">
+                    Creation date:<br>
+                    {{ todo.created_at.strftime('%d-%m-%Y %H:%M') }}<br><br>
+                    Deadline:<br>
+                    {{ todo.deadline_at.strftime('%d-%m-%Y %H:%M') }}
                 </span>
             </h1>
             <p class="ui big header"><strong>Name: </strong> {{ todo.title }}</p>
