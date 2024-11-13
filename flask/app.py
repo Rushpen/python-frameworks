@@ -19,11 +19,30 @@ class Todo(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.get("/")
+@app.route("/", methods=["GET"])
 def home():
-    todo_list = db.session.query(Todo).all()
-    return render_template("base.html", todo_list=todo_list)
+    sort = request.args.get('sort', '')
+    filter_by = request.args.get('filter', '')
 
+    todos = db.session.query(Todo)
+
+    if filter_by == 'completed':
+        todos = todos.filter(Todo.complete.is_(True))
+    elif filter_by == 'incomplete':
+        todos = todos.filter(Todo.complete.is_(False))
+
+    if sort == 'created_at_asc':
+        todos = todos.order_by(Todo.created_at.asc())  
+    elif sort == 'created_at_desc':
+        todos = todos.order_by(Todo.created_at.desc())  
+    elif sort == 'completed_first':
+        todos = todos.order_by(Todo.complete.desc(), Todo.created_at.asc())
+    elif sort == 'incomplete_first':
+        todos = todos.order_by(Todo.complete.asc(), Todo.created_at.asc())  
+
+    todos = todos.all()
+
+    return render_template("base.html", todo_list=todos)
 
 @app.post("/add")
 def add():

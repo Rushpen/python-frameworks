@@ -23,7 +23,28 @@
                 <label>Descriptrion</label>
                 <input type="text" name="description" placeholder="Enter Description..."><br>
             </div>
-            <button class="ui blue button" type="submit">Add</button>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="ui blue button" type="submit">Add</button>
+            
+                <div class="ui dropdown">
+                    <button class="ui teal button">Sort By</button>
+                    <div class="menu">
+                        <a class="item" href="?sort=created_at_asc">Date (Ascending)</a>
+                        <a class="item" href="?sort=created_at_desc">Date (Descending)</a>
+                        <a class="item" href="?sort=completed_first">Completed First</a>
+                        <a class="item" href="?sort=incomplete_first">Incomplete First</a>
+                    </div>
+                </div>
+            
+                <div class="ui dropdown">
+                    <button class="ui purple button">Filter By</button>
+                    <div class="menu">
+                        <a class="item" href="?filter=all">All Tasks</a>
+                        <a class="item" href="?filter=completed">Completed Tasks</a>
+                        <a class="item" href="?filter=incomplete">Incomplete Tasks</a>
+                    </div>
+                </div>
+            </div>
         </form>
 
         <hr>
@@ -65,6 +86,8 @@
         {% endfor %}
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 </body>
 
 </html>

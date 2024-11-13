@@ -5,9 +5,26 @@ from .models import Todo
 
 # Create your views here.
 def index(request):
+    sort = request.GET.get('sort', None)
+    filter_by = request.GET.get('filter', None)
+
     todos = Todo.objects.all()
+
+    if filter_by == 'completed':
+        todos = todos.filter(complete=True)
+    elif filter_by == 'incomplete':
+        todos = todos.filter(complete=False)
+
+    if sort == 'created_at_asc':
+        todos = todos.order_by('created_at') 
+    elif sort == 'created_at_desc':
+        todos = todos.order_by('-created_at') 
+    elif sort == 'completed_first':
+        todos = todos.order_by('-complete', 'created_at') 
+    elif sort == 'incomplete_first':
+        todos = todos.order_by('complete', 'created_at') 
+
     return render(request, "base.html", {"todo_list": todos})
-    # return HttpResponse("Hello World!!")
 
 
 @require_http_methods(["POST"])
@@ -19,7 +36,6 @@ def add(request):
         todo = Todo(title=title, description=description)
         todo.save()
     return redirect("index")
-
 
 def update(request, todo_id):
     todo = Todo.objects.get(id=todo_id)

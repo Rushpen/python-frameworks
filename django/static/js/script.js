@@ -6,3 +6,10 @@ function toggleEditForm(todoId) {
         form.style.display = 'none';
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdowns = document.querySelectorAll('.ui.dropdown');
+    dropdowns.forEach(dropdown => {
+        $(dropdown).dropdown();
+    });
+});
