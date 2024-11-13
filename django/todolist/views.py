@@ -15,8 +15,9 @@ def add(request):
     # if request.method == "POST":
     title = request.POST["title"]
     description = request.POST["description"]
-    todo = Todo(title=title, description=description)
-    todo.save()
+    if title and description:
+        todo = Todo(title=title, description=description)
+        todo.save()
     return redirect("index")
 
 

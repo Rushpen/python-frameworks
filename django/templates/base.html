@@ -41,16 +41,26 @@
         
             <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
             <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
-            <form action="{% url 'edit' todo_id=todo.id %}" method="post">
+            <button class="ui green button" onclick="toggleEditForm('{{ todo.id }}')">Edit</button>
+            <form id="edit-form-{{ todo.id }}" class="ui form" action="{% url 'edit' todo_id=todo.id %}" method="post" style="display: none; margin-top: 10px;">
                 {% csrf_token %}
-                <input type="text" name="title" value="{{ todo.title }}" required>
-                <input type="text" name="description" value="{{ todo.description }}" required>
-                <button class="ui green button" type="submit">Edit</button>
+            
+                <div class="field">
+                    <label>New Title</label>
+                    <input type="text" name="title" value="{{ todo.title }}" required><br>
+                </div>
+                <div class="field">
+                    <label>New Description</label>
+                    <input type="text" name="description" value="{{ todo.description }}" required><br>
+                </div>
+                <button class="ui green button" type="submit">Save</button>
             </form>
         </div>
         
         {% endfor %}
     </div>
+    {% load static %}
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 
 </html>
