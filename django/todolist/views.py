@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from datetime import datetime, timedelta
+from collections import defaultdict
 
 from .models import Todo
 
@@ -79,3 +80,12 @@ def delete(request, todo_id):
     todo.delete()
     return redirect("index")
 
+def calendar(request):
+    tasks = Todo.objects.all()
+    tasks_by_date = defaultdict(list)
+    
+    for task in tasks:
+        task_date_str = task.deadline_at.strftime('%Y-%m-%d')
+        tasks_by_date[task_date_str].append(task.title)
+    
+    return render(request, "calendar.html", {'tasks_by_date': tasks_by_date})

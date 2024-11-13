@@ -16,7 +16,7 @@
         {% for message in messages %}
             <div class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
         {% endfor %}
-    </div>
+    </div> 
     {% endif %}
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">To Do App</h1>
@@ -66,17 +66,17 @@
 
         {% for todo in todo_list %}
         <div class="ui segment {% if todo.complete %}green{% else %}grey{% endif %}">
-            <h1 class="ui center aligned header black">
+            <h1 class="ui center aligned header {% if todo.complete %}green{% else %}grey{% endif %}">
                 Task № {{todo.id }}
-                <span style="font-size: 0.6em; display: block; float: right;">
+                <span style="font-size: 0.6em; display: block; float: right; color: black">
                     Creation date:<br>
                     {{ todo.formatted_date }}<br><br>
                     Deadline:<br>
                     {{ todo.formatted_deadline }}
                 </span>
             </h1>
-            <p class="ui big header"><strong>Name: </strong> {{ todo.title }}</p>
-            <p class="ui big header"><strong>Description: </strong>{{ todo.description }}</p>
+            <p class="ui big header"><strong>Name: </strong> {{ todo.title|linebreaksbr }}</p>
+            <p class="ui big header"><strong>Description: </strong>{{ todo.description|linebreaksbr }}</p>
         
             {% if todo.complete %}
             <span class="ui green label">ㅤCompletedㅤ</span>
