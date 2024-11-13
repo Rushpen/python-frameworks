@@ -11,6 +11,13 @@
 </head>
 
 <body>
+    {% if messages %}
+    <div class="ui message">
+        {% for message in messages %}
+            <div class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">To Do App</h1>
 
@@ -19,8 +26,14 @@
             <div class="field">
                 <label>Todo Title</label>
                 <input type="text" name="title" placeholder="Enter Todo..."><br>
-                <label>Todo Description</label>
-                <input type="text" name="description" placeholder="Enter desc..."><br>
+            </div>
+            <div class="field_description">
+                <label>Descriptrion</label>
+                <input type="text" name="description" placeholder="Enter Description..."><br>
+            </div>
+            <div class="deadline_days">
+                <label>Days before the deadline</label>
+                <input type="text" name="deadline_days" placeholder="Enter deadline days..."><br>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <button class="ui blue button" type="submit">Add</button>
@@ -28,21 +41,24 @@
                 <div class="ui dropdown">
                     <button class="ui teal button">Sort By</button>
                     <div class="menu">
-                        <a class="item" href="?sort=created_at_asc">Date (Ascending)</a>
-                        <a class="item" href="?sort=created_at_desc">Date (Descending)</a>
-                        <a class="item" href="?sort=completed_first">Completed First</a>
-                        <a class="item" href="?sort=incomplete_first">Incomplete First</a>
+                        <a class="item" href="?sort=created_at_asc{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}">Date (Ascending)</a>
+                        <a class="item" href="?sort=created_at_desc{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}">Date (Descending)</a>
+                        <a class="item" href="?sort=completed_first{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}">Completed First</a>
+                        <a class="item" href="?sort=incomplete_first{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}">Incomplete First</a>
+                        <a class="item" href="?sort=deadline_asc{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}">Deadline Date (Ascending)</a>
+                        <a class="item" href="?sort=deadline_desc{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}">Deadline Date (Descending)</a>
                     </div>
                 </div>
-            
+                
                 <div class="ui dropdown">
                     <button class="ui purple button">Filter By</button>
                     <div class="menu">
-                        <a class="item" href="?filter=all">All Tasks</a>
-                        <a class="item" href="?filter=completed">Completed Tasks</a>
-                        <a class="item" href="?filter=incomplete">Incomplete Tasks</a>
+                        <a class="item" href="?filter=all{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">All Tasks</a>
+                        <a class="item" href="?filter=completed{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Completed Tasks</a>
+                        <a class="item" href="?filter=incomplete{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Incomplete Tasks</a>
                     </div>
                 </div>
+                
             </div>
         </form>
 
@@ -50,10 +66,13 @@
 
         {% for todo in todo_list %}
         <div class="ui segment {% if todo.complete %}green{% else %}grey{% endif %}">
-            <h1 class="ui center aligned header {% if todo.complete %}green{% else %}black{% endif %}">
+            <h1 class="ui center aligned header black">
                 Task № {{todo.id }}
-                <span style="font-size: 0.6em; color: #888; display: block; float: right;">
-                    {{ todo.formatted_date }}
+                <span style="font-size: 0.6em; display: block; float: right;">
+                    Creation date:<br>
+                    {{ todo.formatted_date }}<br><br>
+                    Deadline:<br>
+                    {{ todo.formatted_deadline }}
                 </span>
             </h1>
             <p class="ui big header"><strong>Name: </strong> {{ todo.title }}</p>

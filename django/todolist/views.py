@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.views.decorators.http import require_http_methods
+from datetime import datetime, timedelta
 
 from .models import Todo
 
@@ -23,6 +25,10 @@ def index(request):
         todos = todos.order_by('-complete', 'created_at') 
     elif sort == 'incomplete_first':
         todos = todos.order_by('complete', 'created_at') 
+    elif sort == 'deadline_asc':
+        todos = todos.order_by('deadline_at')
+    elif sort == 'deadline_desc':
+        todos = todos.order_by('-deadline_at')
 
     return render(request, "base.html", {"todo_list": todos})
 
@@ -32,8 +38,16 @@ def add(request):
     # if request.method == "POST":
     title = request.POST["title"]
     description = request.POST["description"]
+
+    try:
+        deadline_days = int(request.POST["deadline_days"])
+    except ValueError:
+        messages.error(request, "Invalid input for deadline days. Please enter a valid integer.")
+        return redirect("index")
+    
+    deadline_at = datetime.now() + timedelta(days=deadline_days)
     if title and description:
-        todo = Todo(title=title, description=description)
+        todo = Todo(title=title, description=description, deadline_at=deadline_at)
         todo.save()
     return redirect("index")
 
