@@ -11,7 +11,7 @@
 <body>
     <ul class="nav">
         <li><a href="/" title="Tasks" class="nav-button">Tasks</a></li>
-    </ul>
+      </ul>
     <div class="calendar">
         <div class="col leftCol">
             <div class="content">
@@ -33,9 +33,9 @@
         <div class="col rightCol">
             <div class="content">
                 <div class="year-container">
-                    <button id="prevYear" class="year-button">◀️</button>
+                    <button id="prevYear" class="year-button">◀</button>
                     <h2 class="year">2024</h2>
-                    <button id="nextYear" class="year-button">▶️</button>
+                    <button id="nextYear" class="year-button">▶</button>
                 </div>
                 <ul class="months">
                     <li><a href="#" title="Jan" data-value="1">Jan</a></li>
@@ -56,11 +56,11 @@
         </div>
     </div>
 
-    <!-- Подключаем JavaScript файл -->
-    <script src="{% static 'js/calendar.js' %}"></script>
-    <script>
-        // Передаём данные из Django в JavaScript через JSON-объект
-        const tasksByDate = JSON.parse('{{ tasks_by_date|safe }}');
+       <!-- Подключаем JavaScript файл -->
+       <script src="{% static 'js/calendar.js' %}"></script>
+       <script>
+        // Передаём данные из Flask в JavaScript через JSON-объект
+        const tasksByDate = JSON.parse('{{ tasks_by_date_json|safe }}');
     </script>
 </body>
 </html>

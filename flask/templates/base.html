@@ -43,21 +43,27 @@
                 <div class="ui dropdown">
                     <button class="ui teal button">Sort By</button>
                     <div class="menu">
-                        <a class="item" href="?sort=created_at_asc">Date (Ascending)</a>
-                        <a class="item" href="?sort=created_at_desc">Date (Descending)</a>
-                        <a class="item" href="?sort=completed_first">Completed First</a>
-                        <a class="item" href="?sort=incomplete_first">Incomplete First</a>
+                        <a class="item" href="?sort=created_at_asc{% if request.args.get('filter') %}&filter={{ request.args.get('filter') }}{% endif %}">Date (Ascending)</a>
+                        <a class="item" href="?sort=created_at_desc{% if request.args.get('filter') %}&filter={{ request.args.get('filter') }}{% endif %}">Date (Descending)</a>
+                        <a class="item" href="?sort=completed_first{% if request.args.get('filter') %}&filter={{ request.args.get('filter') }}{% endif %}">Completed First</a>
+                        <a class="item" href="?sort=incomplete_first{% if request.args.get('filter') %}&filter={{ request.args.get('filter') }}{% endif %}">Incomplete First</a>
+                        <a class="item" href="?sort=deadline_asc{% if request.args.get('filter') %}&filter={{ request.args.get('filter') }}{% endif %}">Deadline Date (Ascending)</a>
+                        <a class="item" href="?sort=deadline_desc{% if request.args.get('filter') %}&filter={{ request.args.get('filter') }}{% endif %}">Deadline Date (Descending)</a>
                     </div>
                 </div>
-            
+                
                 <div class="ui dropdown">
                     <button class="ui purple button">Filter By</button>
                     <div class="menu">
-                        <a class="item" href="?filter=all">All Tasks</a>
-                        <a class="item" href="?filter=completed">Completed Tasks</a>
-                        <a class="item" href="?filter=incomplete">Incomplete Tasks</a>
+                        <a class="item" href="?filter=all{% if request.args.get('sort') %}&sort={{ request.args.get('sort') }}{% endif %}">All Tasks</a>
+                        <a class="item" href="?filter=completed{% if request.args.get('sort') %}&sort={{ request.args.get('sort') }}{% endif %}">Completed Tasks</a>
+                        <a class="item" href="?filter=incomplete{% if request.args.get('sort') %}&sort={{ request.args.get('sort') }}{% endif %}">Incomplete Tasks</a>
                     </div>
                 </div>
+                
+
+                <a class="ui yellow button" href="/calendar">Calendar</a>
+
             </div>
         </form>
 

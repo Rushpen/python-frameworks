@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from datetime import datetime, timedelta
 from collections import defaultdict
+import json
+from django.utils.safestring import mark_safe
 
 from .models import Todo
 
@@ -87,5 +89,8 @@ def calendar(request):
     for task in tasks:
         task_date_str = task.deadline_at.strftime('%Y-%m-%d')
         tasks_by_date[task_date_str].append(task.title)
-    
-    return render(request, "calendar.html", {'tasks_by_date': tasks_by_date})
+
+    tasks_by_date_json = mark_safe(json.dumps(tasks_by_date))
+
+    return render(request, 'calendar.html', {'tasks_by_date_json': tasks_by_date_json})
+
