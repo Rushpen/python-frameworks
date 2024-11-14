@@ -74,12 +74,8 @@
                     {{ todo.deadline_at.strftime('%d-%m-%Y %H:%M') }}
                 </span>
             </h1>
-            <p style="word-wrap: break-word; word-break: break-word; white-space: pre-wrap;">
-                <strong>Name: </strong>{{ todo.title }}
-            </p>
-            <p style="word-wrap: break-word; word-break: break-word; white-space: pre-wrap;">
-                <strong>Description: </strong>{{ todo.description }}
-            </p>
+            <p class="ui big header"><strong>Name: </strong> {{ todo.title }}</p>
+            <p class="ui big header"><strong>Description: </strong>{{ todo.description }}</p>
 
             {% if todo.complete == False %}
             <span class="ui gray label">Not Complete</span>
